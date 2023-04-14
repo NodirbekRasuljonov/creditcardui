@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Payment Card',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      home: const HomePage(),
+      home:  HomePage(),
     );
   }
 }
