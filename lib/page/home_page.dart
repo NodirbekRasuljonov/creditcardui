@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:paymentcardui/colors/color_const.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -107,89 +108,139 @@ class _HomePageState extends State<HomePage> {
                     space(),
                     cardHolder(),
                     space(),
-                    SizedBox(
-                      height: 80.0,
-                      width: 360.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Expiration Date",
-                            style: TextStyle(
-                              color: ColorConst.kTextColor,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50.0,
-                            child: TextFormField(
-                              cursorColor: ColorConst.kTextColor,
-                              keyboardType: TextInputType.number,
-                              style: TextStyle(
-                                color: ColorConst.kTextColor,
-                              ),
-                              inputFormatters: [expirationFormat],
-                              onChanged: (v) {
-                                v = expirationController.text;
-                                print(expirationController.text);
-                                setState(() {});
-                              },
-                              controller: expirationController,
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.transparent),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.transparent,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                filled: true,
-                                fillColor: ColorConst.kButtonColor,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    expiration(),
                     space(),
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint("kechagina oqshomlar");
-                        setState(() {
-                        });
-                        print(cardType);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 70.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 50.0,
-                          width: 286.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: ColorConst.kButtonColor,
-                          ),
-                          child: Text(
-                            "Save",
-                            style: TextStyle(
-                              color: ColorConst.kTextColor,
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    saveCard(),
                   ],
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  SizedBox expiration() {
+    return SizedBox(
+      height: 80.0,
+      width: 360.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Expiration Date",
+            style: TextStyle(
+              color: ColorConst.kTextColor,
+              fontSize: 16.0,
+            ),
+          ),
+          SizedBox(
+            height: 50.0,
+            child: TextFormField(
+              cursorColor: ColorConst.kTextColor,
+              keyboardType: TextInputType.number,
+              style: TextStyle(
+                color: ColorConst.kTextColor,
+              ),
+              inputFormatters: [expirationFormat],
+              onChanged: (v) {
+                v = expirationController.text;
+                print(expirationController.text);
+                setState(() {});
+              },
+              controller: expirationController,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.transparent,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                fillColor: ColorConst.kButtonColor,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  GestureDetector saveCard() {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                content: SizedBox(
+                  height: 300.0,
+                  child: Column(
+                    children: [
+                      Lottie.asset(
+                        "assets/lottie/done.json",
+                        repeat: false,
+                      ),
+                      Text(
+                        "Card successfully added",
+                        style: TextStyle(
+                          color: ColorConst.kTextColor,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                actionsAlignment: MainAxisAlignment.center,
+                actions: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorConst.kBackgroundColor,
+                        fixedSize: Size(110.0, 40.0)),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Done",
+                      style: TextStyle(
+                        color: ColorConst.kTextColor,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            });
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 70.0),
+        child: Container(
+          alignment: Alignment.center,
+          height: 50.0,
+          width: 286.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            color: ColorConst.kButtonColor,
+          ),
+          child: Text(
+            "Save",
+            style: TextStyle(
+              color: ColorConst.kTextColor,
+              fontSize: 22.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ),
       ),
     );
