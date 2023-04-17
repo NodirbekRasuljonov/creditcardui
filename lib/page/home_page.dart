@@ -15,9 +15,10 @@ class _HomePageState extends State<HomePage> {
   TextEditingController numberController = TextEditingController();
 
   TextEditingController expirationController = TextEditingController();
-  final cardnumberFormat =
-      MaskTextInputFormatter(mask: "XXXX XXXX XXXX XXXX");
-  final expirationFormat = MaskTextInputFormatter(mask: "XX/XX");
+
+  final cardnumberFormat = MaskTextInputFormatter(mask: "#### #### #### ####");
+  final expirationFormat = MaskTextInputFormatter(mask: "##/##");
+  late String cardType;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,8 @@ class _HomePageState extends State<HomePage> {
               left: 200.0,
               child: Image.asset("assets/images/vector.png"),
             ),
-            Padding(
+            Container(
+              height: MediaQuery.of(context).size.height,
               padding:
                   const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
               child: SingleChildScrollView(
@@ -60,6 +62,7 @@ class _HomePageState extends State<HomePage> {
                         color: ColorConst.kCardColor,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             height: 30.0,
@@ -69,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Image.asset("assets/images/chip.png"),
                                 Text(
-                                  "Expired ${expirationController.text}",
+                                  "Expired  ${expirationController.text.isEmpty ? "00/00" : expirationController.text},",
                                   style: TextStyle(
                                     color: ColorConst.kTextColor,
                                     fontSize: 16.0,
@@ -79,20 +82,87 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          Text(numberController.text),
-                          Text(nameController.text),
+                          SizedBox(
+                            height: 40.0,
+                          ),
+                          Text(
+                            numberController.text.isEmpty
+                                ? "XXXX XXXX XXXX XXXX"
+                                : numberController.text,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.kTextColor,
+                            ),
+                          ),
+                          space(),
+                          Text(nameController.text.isEmpty
+                              ? "Card Holder"
+                              : nameController.text),
                         ],
                       ),
                     ),
                     space(),
-                    cardHolder(),
-                    space(),
                     cardNumber(),
                     space(),
+                    cardHolder(),
+                    space(),
+                    SizedBox(
+                      height: 80.0,
+                      width: 360.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Expiration Date",
+                            style: TextStyle(
+                              color: ColorConst.kTextColor,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.0,
+                            child: TextFormField(
+                              cursorColor: ColorConst.kTextColor,
+                              keyboardType: TextInputType.number,
+                              style: TextStyle(
+                                color: ColorConst.kTextColor,
+                              ),
+                              inputFormatters: [expirationFormat],
+                              onChanged: (v) {
+                                v = expirationController.text;
+                                print(expirationController.text);
+                                setState(() {});
+                              },
+                              controller: expirationController,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.transparent),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                filled: true,
+                                fillColor: ColorConst.kButtonColor,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     space(),
                     GestureDetector(
                       onTap: () {
                         debugPrint("kechagina oqshomlar");
+                        setState(() {
+                        });
+                        print(cardType);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 70.0),
@@ -114,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -133,10 +203,18 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("Card Number"),
+          Text(
+            "Card Number",
+            style: TextStyle(
+              color: ColorConst.kTextColor,
+              fontSize: 16.0,
+            ),
+          ),
           SizedBox(
             height: 50.0,
-            child: TextField(
+            child: TextFormField(
+              cursorColor: ColorConst.kTextColor,
+              keyboardType: TextInputType.number,
               style: TextStyle(
                 color: ColorConst.kTextColor,
               ),
@@ -174,10 +252,17 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("Card Holder"),
+          Text(
+            "Card Holder",
+            style: TextStyle(
+              color: ColorConst.kTextColor,
+              fontSize: 16.0,
+            ),
+          ),
           SizedBox(
             height: 50.0,
             child: TextFormField(
+              cursorColor: ColorConst.kTextColor,
               onChanged: (v) {
                 v = nameController.text;
                 setState(() {});
